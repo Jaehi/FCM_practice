@@ -1,14 +1,19 @@
 package com.example.fcm_practice
 
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -29,7 +34,7 @@ class FCMService : FirebaseMessagingService() {
         super.onNewToken(token)
     }
 
-    private fun sendNotification(title: String, message: String) {
+    fun sendNotification(title: String, message: String) {
 
         val intent = Intent(this, MainActivity::class.java)
         val channelId = "channel"
@@ -37,6 +42,8 @@ class FCMService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val defaultUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val builder = NotificationCompat.Builder(applicationContext, channelId)
+            .setContentTitle(title)
+            .setContentText(message)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setSound(defaultUri)
             .setAutoCancel(true)
